@@ -1,49 +1,3 @@
-use clap::Parser;
-use displaydoc::Display;
-use regex::Regex;
-
-use anyhow::{Context, Result};
-use std::fs::File;
-use std::io::{BufRead, BufReader, Read};
-use std::{path::PathBuf, string::String};
-use tracing::info;
-use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
-
-// Define a struct to hold the command-line arguments
-#[derive(Debug, Parser, Display)]
-struct Args {
-    solution: u32,
-    input_path: PathBuf,
-}
-
-fn init_tracing() {
-    // Only run once; protects against multiple initialization attempts
-    static INIT: std::sync::Once = std::sync::Once::new();
-
-    INIT.call_once(|| {
-        tracing_subscriber::registry()
-            .with(EnvFilter::from_default_env()) // respects RUST_LOG
-            .with(fmt::layer()) // pretty logging
-            .init(); // installs as global default
-    });
-}
-
-fn main() -> Result<()> {
-    init_tracing();
-    let args = Args::parse();
-    info!("Input arguments: {:?}", args);
-
-    let input = File::open(args.input_path).with_context(|| "Unable to open input file")?;
-    let value = match args.solution {
-        1 => solution1(&input).with_context(|| "Exception encountered with executing solution")?,
-        2 => solution2(&input).with_context(|| "Exception encountered with executing solution")?,
-        default => panic!("Invalid solution index: {default}"),
-    };
-    info!("Solution: {value}");
-
-    Ok(())
-}
-
 /*
 --- Day 1: Secret Entrance ---
 
@@ -107,6 +61,16 @@ Because the dial points at 0 a total of three times during this process, the pas
 Analyze the rotations in your attached document. What's the actual password to open the door?
 
  */
+use anyhow::Result;
+use regex::Regex;
+use shared::shared_main;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use tracing::info;
+
+fn main() -> Result<()> {
+    shared_main(solution1, solution2)
+}
 
 fn modulo(input: i32, modulo: i32) -> i32 {
     let remainder = input % modulo;
@@ -169,7 +133,6 @@ fn solution2(input: &File) -> Result<u32> {
             info!(r"Processing input: {direction}, {amount}");
 
             let amount: i32 = amount.parse()?;
-            let dial_new = 0;
             let increment = match direction {
                 "R" => 1,
                 "L" => -1,
