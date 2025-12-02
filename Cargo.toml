@@ -1,0 +1,20 @@
+[package]
+name = "AdventOfCode2025-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.53", features = ["derive"] }
+displaydoc = "0.2.5"
+regex = "1.12.2"
+rstest = "0.26.1"
+tracing = "0.1.43"
+tracing-subscriber = { version = "0.3.22", features = ["fmt", "env-filter", "std"]}
+
+
+[[bin]]
+name = "day1"
+path = "src/day1/main.rs"
+
+# Add additional binaries as needed:
