@@ -24,7 +24,7 @@ fn init_tracing() {
     });
 }
 
-type SolutionFunction = fn(&File) -> Result<u32>;
+type SolutionFunction = fn(&File) -> Result<u64>;
 
 pub fn shared_main(solution1: SolutionFunction, solution2: SolutionFunction) -> Result<()> {
     init_tracing();

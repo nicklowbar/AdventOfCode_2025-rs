@@ -81,7 +81,7 @@ fn modulo(input: i32, modulo: i32) -> i32 {
     }
 }
 
-fn solution1(input: &File) -> Result<u32> {
+fn solution1(input: &File) -> Result<u64> {
     let re = Regex::new(r"^([LR])(\d+)")?; // L/R, then a number
 
     let mut password = 0;
@@ -118,7 +118,7 @@ fn solution1(input: &File) -> Result<u32> {
     Ok(password)
 }
 
-fn solution2(input: &File) -> Result<u32> {
+fn solution2(input: &File) -> Result<u64> {
     let re = Regex::new(r"^([LR])(\d+)")?; // L/R, then a number
 
     let mut password = 0;
