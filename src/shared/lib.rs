@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use clap::Parser;
 use displaydoc::Display;
-use std::{fs::File, path::PathBuf, string::String};
+use std::{fs::File, path::PathBuf};
 use tracing::info;
 use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 

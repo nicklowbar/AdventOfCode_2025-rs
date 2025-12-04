@@ -44,7 +44,6 @@ Consider your complete diagram of the paper roll locations. How many rolls of pa
 */
 
 use anyhow::Result;
-use regex::Regex;
 use shared::shared_main;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Seek, SeekFrom};
@@ -58,7 +57,7 @@ fn main() -> Result<()> {
 }
 
 fn solution1(input: &File) -> Result<u64> {
-    let mut solution: u64 = 0;
+    let solution: u64 = 0;
 
     let mut input_reader: BufReader<&File> = BufReader::new(input);
     let mut x: usize = 0;
@@ -105,7 +104,7 @@ fn solution1(input: &File) -> Result<u64> {
 
         let range = String::from_utf8(range_bytes)?;
 
-        let mut row: Vec<u8> = range
+        let row: Vec<u8> = range
             .chars()
             .map(|c| match c {
                 '@' => 1u8, // 1 = roll of paper
@@ -230,7 +229,7 @@ fn solution2(input: &File) -> Result<u64> {
 
         let range = String::from_utf8(range_bytes)?;
 
-        let mut row: Vec<u8> = range
+        let row: Vec<u8> = range
             .chars()
             .map(|c| match c {
                 '@' => 1u8, // 1 = roll of paper
@@ -247,7 +246,6 @@ fn solution2(input: &File) -> Result<u64> {
 
     // For each element in the input grid, compute if there are 4 or more adjacent rolls to the current roll.
 
-    let sum = Arc::new(AtomicU64::new(0));
     let num_threads = 32.min(y);
     let num_rows = y / num_threads; 
     let chunk_size = num_rows * x; // split the output mask into disjoint chunks for thread processing.
@@ -329,7 +327,7 @@ fn solution2(input: &File) -> Result<u64> {
     };
 
     let mut current_removed = u64::MAX;
-    while (current_removed != 0){
+    while current_removed != 0 {
         reset_mask(&mut mask);
         current_removed = compute_roll_remove_mask(&mut mask, &grid)?;
         solution += current_removed;
