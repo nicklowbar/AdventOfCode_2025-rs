@@ -316,8 +316,6 @@ fn solution2(input: &File) -> Result<u64> {
                         for col in 0i64..x as i64 {
                             // Multiply the mask over the buffer to remove the paper roll
                             *array_2d_mut(buffer_chunk, x, col as usize, row as usize - start_row) *= array_2d(&mask, x, col as usize, row as usize);
-                            if array_2d(buffer_chunk, x, col as usize, row as usize - start_row) == 1{
-                            }
                         }
                     }
                 });
