@@ -123,7 +123,7 @@ fn solution1(input: &File) -> Result<u64> {
     let arc_grid: Arc<Vec<u8>> = Arc::<Vec<u8>>::new(grid);
 
     let sum = Arc::new(AtomicU64::new(0));
-    let num_threads = 1; //32.min(y);
+    let num_threads = 32.min(y);
 
     let array_2d = |arr: &[u8], width: usize, x: usize, y: usize| -> u8 { arr[y * width + x] };
 
@@ -133,8 +133,8 @@ fn solution1(input: &File) -> Result<u64> {
         let sum = sum.clone();
         handles.push(thread::spawn(move || {
             let mut accessible_rolls: u64 = 0;
-            let num_rows = y / num_threads;
-            let start_row = num_rows * i;
+            let num_rows = y.div_ceil(num_threads);
+            let start_row = (num_rows * i).min(y);
             let end_row = (start_row + num_rows).min(y);
             debug!("Thread: {i} - Start Row: {start_row}, End Row: {end_row}");
             for row in start_row as i64..end_row as i64 {
@@ -154,7 +154,7 @@ fn solution1(input: &File) -> Result<u64> {
                         }
                     }
                     // after processing the 3x3 kernel for a given cell, add it to our running count of accessible rolls.
-                    debug!("Thread: {i} - {col},{row} - Num Rolls: {num_rolls}");
+                    trace!("Thread: {i} - {col},{row} - Num Rolls: {num_rolls}");
                     if num_rolls < 4 {
                         debug!("Thread: {i} - Accessible Roll: {col},{row}");
                         accessible_rolls += 1;
@@ -247,7 +247,7 @@ fn solution2(input: &File) -> Result<u64> {
     // For each element in the input grid, compute if there are 4 or more adjacent rolls to the current roll.
 
     let num_threads = 32.min(y);
-    let num_rows = y / num_threads; 
+    let num_rows = y.div_ceil(num_threads); 
     let chunk_size = num_rows * x; // split the output mask into disjoint chunks for thread processing.
 
     let reset_mask = |mask: &mut [u8]| {

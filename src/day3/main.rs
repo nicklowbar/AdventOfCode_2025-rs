@@ -117,7 +117,7 @@ What is the new total output joltage?
 fn solution2(input: &File) -> Result<u64> {
     let mut solution: u64 = 0;
 
-    let mut input_reader = BufReader::new(input);
+    let mut input_reader: BufReader<&File> = BufReader::new(input);
 
     let _compute_joltage = |joltages: &mut [u8; 12]| -> u64 {
         let mut sum: u64 = 0;
