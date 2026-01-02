@@ -363,7 +363,8 @@ fn solution2(input: &File) -> Result<u64> {
             let cross_b_minus_a_p_minus_a = cross(&b_minus_a, &p_minus_a);
             let collinear = cross_b_minus_a_p_minus_a == 0;
             let dot_p_minus_a_p_minus_b = dot(&p_minus_a, &p_minus_b);
-            let point_within_segment_bounds = dot_p_minus_a_p_minus_b <= 0; // < 0 = point lies within A -> B, 0 = Point is A or B, and > 0 means point is not within a -> b.
+            let point_within_segment_bounds = dot_p_minus_a_p_minus_b <= 0; // < 0 = point lies within A -> B, 0 = Point is A or B, and > 0 means point is
+                                                                            // not within a -> b.
 
             trace!("collinearity test: B-A: {:?}, P-A {:?}, P-B {:?} (B-A)X(P-A) {}, (P-A)*(P-B) {}  is collinear? {} is within segment? {}", b_minus_a, p_minus_a, p_minus_b, cross_b_minus_a_p_minus_a, dot_p_minus_a_p_minus_b, collinear, point_within_segment_bounds);
 
@@ -382,7 +383,8 @@ fn solution2(input: &File) -> Result<u64> {
     };
 
     let point_within_polygon_winding = |point: &Point, polygon: &Vec<Point>| -> bool {
-        // use upward/downward crossings to determine if the point is enclosed in the polygon
+        // use upward/downward crossings to determine if the point is enclosed in the
+        // polygon
         let mut winding = 0;
         debug!("Evaluating point {:?} for polygon winding area.", point);
         for current_idx in 0..polygon.len() {
@@ -487,12 +489,14 @@ fn solution2(input: &File) -> Result<u64> {
                         p3,
                         p4
                     );
-                    // if they do, check directonality, to see if polygon segment intrudes into square area
+                    // if they do, check directonality, to see if polygon segment intrudes into
+                    // square area
                     let square_dir = p4.sub(p3);
                     let polygon_dir = p2.sub(p1);
                     let s = cross(&square_dir, &polygon_dir);
                     if s < 0 {
-                        // polygon interior is on the left side of the line intersection, these do not overlap.
+                        // polygon interior is on the left side of the line intersection, these do
+                        // not overlap.
                         debug!("Polygon intrudes in test square area. Square is not within or along polygon boundary.");
                         return false;
                     }

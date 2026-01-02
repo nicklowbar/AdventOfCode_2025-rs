@@ -91,7 +91,8 @@ fn solution1(input: &File) -> Result<u64> {
         let error_num_digits = compute_digits(current_half_num);
         let mut current_error_num = compute_error_num(current_half_num, error_num_digits)?;
         while current_error_num <= range_end {
-            //info!("Evaluating half num: {current_half_num}, error num: {current_error_num}");
+            //info!("Evaluating half num: {current_half_num}, error num:
+            // {current_error_num}");
             if current_error_num >= range_start && current_error_num <= range_end {
                 num_invalid += 1;
                 solution += current_error_num;

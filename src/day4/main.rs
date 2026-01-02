@@ -119,7 +119,8 @@ fn solution1(input: &File) -> Result<u64> {
 
     info!("Input grid: {:?}", grid);
 
-    // For each element in the input grid, compute if there are 4 or more adjacent rolls to the current roll.
+    // For each element in the input grid, compute if there are 4 or more adjacent
+    // rolls to the current roll.
     let arc_grid: Arc<Vec<u8>> = Arc::<Vec<u8>>::new(grid);
 
     let sum = Arc::new(AtomicU64::new(0));
@@ -177,8 +178,12 @@ fn solution1(input: &File) -> Result<u64> {
     Ok(solution)
 }
 
-fn array_2d (arr: &[u8], width: usize, x: usize, y: usize) -> u8 { arr[y * width + x] }
-fn array_2d_mut (arr: &mut[u8], width: usize, x: usize, y: usize) -> & mut u8 { &mut arr[y * width + x] }
+fn array_2d(arr: &[u8], width: usize, x: usize, y: usize) -> u8 {
+    arr[y * width + x]
+}
+fn array_2d_mut(arr: &mut [u8], width: usize, x: usize, y: usize) -> &mut u8 {
+    &mut arr[y * width + x]
+}
 
 fn solution2(input: &File) -> Result<u64> {
     let mut solution: u64 = 0;
@@ -244,10 +249,11 @@ fn solution2(input: &File) -> Result<u64> {
 
     info!("Input grid: {:?}", grid);
 
-    // For each element in the input grid, compute if there are 4 or more adjacent rolls to the current roll.
+    // For each element in the input grid, compute if there are 4 or more adjacent
+    // rolls to the current roll.
 
     let num_threads = 32.min(y);
-    let num_rows = y.div_ceil(num_threads); 
+    let num_rows = y.div_ceil(num_threads);
     let chunk_size = num_rows * x; // split the output mask into disjoint chunks for thread processing.
 
     let reset_mask = |mask: &mut [u8]| {
@@ -258,9 +264,9 @@ fn solution2(input: &File) -> Result<u64> {
         debug!("Computing mask for buffer.");
         let arc_grid = Arc::new(grid);
         let removed_rolls = Arc::new(AtomicU64::new(0));
-        
+
         thread::scope(|scope| {
-            for (tid, mask_chunk) in mask.chunks_mut(chunk_size).enumerate(){
+            for (tid, mask_chunk) in mask.chunks_mut(chunk_size).enumerate() {
                 let grid = arc_grid.clone();
                 let removed_rolls = removed_rolls.clone();
                 scope.spawn(move || {
@@ -291,22 +297,20 @@ fn solution2(input: &File) -> Result<u64> {
                                 debug!("Thread: {tid} - Accessible Roll: {col},{row}");
                                 *array_2d_mut(mask_chunk, x, col as usize, row as usize - start_row) = 0;
                                 part_sum += 1;
-                                
                             }
                         }
                     }
-                    removed_rolls.fetch_add(part_sum, Ordering::Relaxed); 
-                     
+                    removed_rolls.fetch_add(part_sum, Ordering::Relaxed);
                 });
             }
         }); // wait for all threads to complete
         Ok(removed_rolls.load(Ordering::Relaxed))
     };
 
-    let apply_mask = |buffer: &mut[u8], mask: &[u8]| -> Result<()> {
+    let apply_mask = |buffer: &mut [u8], mask: &[u8]| -> Result<()> {
         debug!("Applying mask to buffer.");
         thread::scope(|scope| {
-            for (tid, buffer_chunk) in buffer.chunks_mut(chunk_size).enumerate(){
+            for (tid, buffer_chunk) in buffer.chunks_mut(chunk_size).enumerate() {
                 let mask = Arc::new(mask);
                 scope.spawn(move || {
                     let start_row = num_rows * tid;
@@ -315,7 +319,12 @@ fn solution2(input: &File) -> Result<u64> {
                     for row in start_row as i64..end_row as i64 {
                         for col in 0i64..x as i64 {
                             // Multiply the mask over the buffer to remove the paper roll
-                            *array_2d_mut(buffer_chunk, x, col as usize, row as usize - start_row) *= array_2d(&mask, x, col as usize, row as usize);
+                            *array_2d_mut(
+                                buffer_chunk,
+                                x,
+                                col as usize,
+                                row as usize - start_row,
+                            ) *= array_2d(&mask, x, col as usize, row as usize);
                         }
                     }
                 });

@@ -118,7 +118,8 @@ fn solution1(input: &File) -> Result<u64> {
         let cluster2_id = point_clusters[current_edge.p2];
 
         if cluster1_id != cluster2_id {
-            // small optimization, only copy from smaller set to larger to minimize collection resizing
+            // small optimization, only copy from smaller set to larger to minimize
+            // collection resizing
             let (dst_id, src_id) = if clusters[&cluster1_id].len() >= clusters[&cluster2_id].len() {
                 (cluster1_id, cluster2_id)
             } else {
@@ -147,7 +148,8 @@ fn solution1(input: &File) -> Result<u64> {
         idx += 1;
     }
 
-    // Finally, finally, multiply the sizes of the remaining clusters for the solution.
+    // Finally, finally, multiply the sizes of the remaining clusters for the
+    // solution.
     solution = 1;
 
     let mut cluster_sizes: Vec<u64> = clusters
@@ -250,7 +252,8 @@ fn solution2(input: &File) -> Result<u64> {
         let cluster2_id = point_clusters[current_edge.p2];
 
         if cluster1_id != cluster2_id {
-            // small optimization, only copy from smaller set to larger to minimize collection resizing
+            // small optimization, only copy from smaller set to larger to minimize
+            // collection resizing
             let (dst_id, src_id) = if clusters[&cluster1_id].len() >= clusters[&cluster2_id].len() {
                 (cluster1_id, cluster2_id)
             } else {
@@ -279,7 +282,8 @@ fn solution2(input: &File) -> Result<u64> {
         idx += 1;
     }
 
-    // Get the coordinates of the last connection of boxes that form a complete circuit
+    // Get the coordinates of the last connection of boxes that form a complete
+    // circuit
     let last_edge = &edges[idx - 1];
     let box1 = last_edge.p1;
     let box2 = last_edge.p2;

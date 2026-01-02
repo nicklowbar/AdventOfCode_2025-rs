@@ -68,7 +68,8 @@ fn solution1(input: &File) -> Result<u64> {
             .map(|c| c.to_digit(10).expect("Invalid integer value"))
             .collect();
 
-        // iterate through the array of joltages, keeping track of the last relative maxima.
+        // iterate through the array of joltages, keeping track of the last relative
+        // maxima.
         let mut largest_joltage = 0u32;
 
         let compute_joltage = |a, b| a * 10 + b;
@@ -128,9 +129,11 @@ fn solution2(input: &File) -> Result<u64> {
         sum
     };
 
-    // Axiom 1: the largest n digit number you can create from n+1 consecutive digits is the largest of all possible consecutive arrangements of n digits.
+    // Axiom 1: the largest n digit number you can create from n+1 consecutive
+    // digits is the largest of all possible consecutive arrangements of n digits.
     let compute_max_joltage_minus_index = |joltages: &[u8; 13]| -> (u64, usize) {
-        // for each index in the sequence, compute the joltage of the number formed if we remove this number from the sequence.
+        // for each index in the sequence, compute the joltage of the number formed if
+        // we remove this number from the sequence.
         let mut max = 0;
         let mut max_idx = 0;
         for idx in 0..13 {
@@ -176,7 +179,8 @@ fn solution2(input: &File) -> Result<u64> {
 
         let mut max_joltage = 0;
 
-        // for rest of digits in joltages, greedily keep the 12 digits that make the largest number:
+        // for rest of digits in joltages, greedily keep the 12 digits that make the
+        // largest number:
         for idx in 12..joltages.len() {
             // append our next digit to evaluate
             max_digits[12] = joltages[idx];

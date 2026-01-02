@@ -261,7 +261,8 @@ fn solution2(input: &File) -> Result<u64> {
     };
 
     for range in ranges {
-        // compute the width of this range, and add to our running total of fresh ingredient ids.
+        // compute the width of this range, and add to our running total of fresh
+        // ingredient ids.
         solution += range.1 - range.0 + 1;
     }
     Ok(solution)
